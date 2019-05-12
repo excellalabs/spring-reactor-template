@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class BookControllerAdvice {
 
     @ExceptionHandler(BookNotFoundException.class)
-    ResponseEntity<GenericError> handleCaseNotFoundException(final BookNotFoundException e) {
+    ResponseEntity<GenericError> handleBookNotFoundException(final BookNotFoundException e) {
         log.warn(e.getMessage(), e.getCause());
         return buildGenericErrorResponseEntity(
                 "Book not found",
