@@ -1,7 +1,16 @@
 package com.excella.reactor.domain;
 
-import java.io.Serializable;
+import lombok.Getter;
+import lombok.Setter;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.MappedSuperclass;
 
-public interface DomainModel<T> extends Serializable {
-  T withId(Long id);
+@Getter
+@Setter
+@MappedSuperclass
+public abstract class DomainModel  {
+  @GeneratedValue(strategy= GenerationType.IDENTITY)
+  @Id protected Long id;
 }
