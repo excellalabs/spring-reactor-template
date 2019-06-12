@@ -6,7 +6,7 @@ import org.springframework.data.repository.CrudRepository;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-public interface CrudService<T extends DomainModel> {
+public interface CrudService<T extends DomainModel<T>> {
   default Flux<T> all() {
     return MonoUtils.retrieveAsList(getRepository()::findAll);
   }
@@ -21,11 +21,7 @@ public interface CrudService<T extends DomainModel> {
 
   default Mono<T> update(Long id, T t) {
     return byId(id)
-        .map(
-            p -> {
-              t.setId(id);
-              return t;
-            })
+        .map(p -> t.withId(id))
         .flatMap(this::save);
   }
 
