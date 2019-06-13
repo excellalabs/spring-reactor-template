@@ -1,14 +1,12 @@
 package com.excella.reactor.domain;
 
-import java.util.Set;
-import javax.persistence.Embedded;
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
-
+import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import lombok.Data;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -20,6 +18,6 @@ public class Employee extends DomainModel {
 
   @Embedded private Contact contact;
 
-  @OneToMany(mappedBy = "skill")
-  Set<EmployeeSkill> skills;
+  @OneToMany(mappedBy = "employee", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+  List<EmployeeSkill> skills = new ArrayList<>();
 }

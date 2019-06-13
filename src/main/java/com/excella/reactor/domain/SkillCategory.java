@@ -1,11 +1,13 @@
 package com.excella.reactor.domain;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
 import javax.persistence.Embeddable;
-import lombok.Value;
+import lombok.Data;
 
 @Embeddable
-@Value
+@Data
 public class SkillCategory implements Serializable {
-  private String name;
+  @JsonProperty("name")
+  private String category;
 }

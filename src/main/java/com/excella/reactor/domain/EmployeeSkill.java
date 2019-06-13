@@ -1,5 +1,6 @@
 package com.excella.reactor.domain;
 
+import java.io.Serializable;
 import javax.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,17 +9,16 @@ import lombok.NoArgsConstructor;
 @Data
 @Entity
 @Table(name = "employee_skill")
-public class EmployeeSkill {
-  @EmbeddedId private EmployeeSkillKey id;
+public class EmployeeSkill implements Serializable {
 
+  @Id
   @ManyToOne
-  @MapsId("employeeId")
-  @JoinColumn(name = "employee_id")
+  @JoinColumn(name = "employee_id", referencedColumnName = "id")
   private Employee employee;
 
+  @Id
   @ManyToOne
-  @MapsId("skillId")
-  @JoinColumn(name = "skill_id")
+  @JoinColumn(name = "skill_id", referencedColumnName = "id")
   private Skill skill;
 
   @Enumerated(EnumType.STRING)

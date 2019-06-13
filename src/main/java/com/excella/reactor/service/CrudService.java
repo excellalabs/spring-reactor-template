@@ -21,10 +21,11 @@ public interface CrudService<T extends DomainModel> {
 
   default Mono<T> update(Long id, T t) {
     return byId(id)
-        .map(p -> {
-          t.setId(id);
-          return t;
-        })
+        .map(
+            p -> {
+              t.setId(id);
+              return t;
+            })
         .flatMap(this::save);
   }
 
