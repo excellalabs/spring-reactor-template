@@ -8,6 +8,8 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import java.io.Serializable;
 import java.time.LocalDate;
 import javax.persistence.Embeddable;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import lombok.Data;
 
 @Data
@@ -22,7 +24,11 @@ class Bio implements Serializable {
   @JsonSerialize(using = LocalDateSerializer.class)
   private LocalDate birthDate;
 
+  @Enumerated(value = EnumType.STRING)
   private Gender gender;
+
+  @Enumerated(value = EnumType.STRING)
   private Ethnicity ethnicity;
+
   private boolean usCitizen;
 }
