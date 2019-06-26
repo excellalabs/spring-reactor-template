@@ -39,18 +39,6 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     auth.userDetailsService(userDetailsService()).passwordEncoder(passwordEncoder());
   }
 
-  @Bean
-  public WebMvcConfigurer corsConfigurer() {
-    return new WebMvcConfigurerAdapter() {
-      @Override
-      public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**")
-            .allowedMethods("HEAD", "GET", "PUT", "POST", "DELETE", "PATCH");
-      }
-    };
-  }
-
-
 
   /**
    * Returns the default implementation of the AuthenticationManager and creates a bean from it.
