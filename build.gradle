@@ -95,8 +95,11 @@ dependencies {
 	
 	runtimeOnly 'org.postgresql:postgresql'
 	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
-	
+
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.springframework.security:spring-security-test:5.1.5.RELEASE'
+
+
 	testImplementation 'io.projectreactor:reactor-test'
 	testImplementation group: 'org.testng', name: 'testng', version: '6.14.3'
 	testImplementation 'org.mockito:mockito-inline:2.13.0'
