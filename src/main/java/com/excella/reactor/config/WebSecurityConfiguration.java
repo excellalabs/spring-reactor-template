@@ -1,6 +1,5 @@
 package com.excella.reactor.config;
 
-import javax.sql.DataSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -14,6 +13,8 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
+import javax.sql.DataSource;
+
 @EnableWebSecurity
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
@@ -24,6 +25,16 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
   public WebSecurityConfiguration(final DataSource dataSource) {
     this.dataSource = dataSource;
+  }
+
+  @Bean
+  public WebMvcConfigurer corsConfigurer() {
+    return new WebMvcConfigurerAdapter() {
+      @Override
+      public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/**").allowedOrigins("*");
+      }
+    };
   }
 
   /**
