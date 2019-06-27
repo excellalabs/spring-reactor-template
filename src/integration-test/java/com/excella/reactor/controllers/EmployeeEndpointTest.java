@@ -1,0 +1,61 @@
+package com.excella.reactor.controllers;
+
+import com.excella.reactor.domain.Employee;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
+import org.springframework.test.context.web.WebAppConfiguration;
+import org.springframework.test.web.servlet.MockMvc;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+
+@Test
+@RunWith(SpringRunner.class)
+@SpringBootTest
+@WebAppConfiguration
+@AutoConfigureMockMvc
+public class EmployeeEndpointTest extends AbstractTestNGSpringContextTests {
+  private MockMvc mockMvc;
+  private Employee employee;
+
+  @Autowired
+  public EmployeeEndpointTest(MockMvc mockMvc) {
+    this.mockMvc = mockMvc;
+  }
+
+  @BeforeClass
+  public void beforeClass() {
+    this.employee = new Employee();
+  }
+
+  @BeforeTest
+  public void beforeTest() {
+
+  }
+  @Test
+  public void contextLoads() {
+    assert mockMvc != null;
+  }
+
+  @Test(description = "Post an employee successfully.")
+  public void postSuccessfully() throws Exception{
+    Employee employee = new Employee()
+
+
+    mockMvc.perform(post("/employee")
+        .contentType(MediaType.APPLICATION_JSON_UTF8)
+        .content()
+    )
+
+  }
+
+
+
+}
