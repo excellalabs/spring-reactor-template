@@ -1,11 +1,13 @@
 package com.excella.reactor.controllers;
 
 import com.excella.reactor.domain.Employee;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -15,19 +17,23 @@ import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @Test
-@RunWith(SpringRunner.class)
 @SpringBootTest
 @WebAppConfiguration
+@ContextConfiguration
 @AutoConfigureMockMvc
 public class EmployeeEndpointTest extends AbstractTestNGSpringContextTests {
   private MockMvc mockMvc;
+  private ObjectMapper mapper;
+
   private Employee employee;
 
   @Autowired
-  public EmployeeEndpointTest(MockMvc mockMvc) {
+  public EmployeeEndpointTest(MockMvc mockMvc, ObjectMapper mapper) {
     this.mockMvc = mockMvc;
+    this.mapper = mapper;
   }
 
   @BeforeClass
@@ -46,13 +52,11 @@ public class EmployeeEndpointTest extends AbstractTestNGSpringContextTests {
 
   @Test(description = "Post an employee successfully.")
   public void postSuccessfully() throws Exception{
-    Employee employee = new Employee()
-
 
     mockMvc.perform(post("/employee")
         .contentType(MediaType.APPLICATION_JSON_UTF8)
-        .content()
-    )
+        .content(mapper.writeValueAsString(employee))
+    ).andExpect(status().is4xxClientError());
 
   }
 
