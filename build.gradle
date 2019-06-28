@@ -54,20 +54,20 @@ repositories {
 }
 
 sourceSets {
-	integrationTest {
+	inttest {
 		java {
 			compileClasspath += main.output + test.output
 			runtimeClasspath += main.output + test.output
-			srcDir file('src/integration-test/java')
+			srcDir file('src/inttest/java')
 		}
-		resources.srcDir file('src/integration-test/resources')
+		resources.srcDir file('src/inttest/resources')
 	}
 }
 
 configurations {
-	integrationTestCompile.extendsFrom testCompile
-	integrationTestRuntime.extendsFrom testRuntime
-	integrationTestImplementation.extendsFrom testImplementation
+	inttestCompile.extendsFrom testCompile
+	inttestRuntime.extendsFrom testRuntime
+	inttestImplementation.extendsFrom testImplementation
 
 }
 
@@ -104,11 +104,11 @@ dependencies {
 	testImplementation group: 'org.testng', name: 'testng', version: '6.14.3'
 	testImplementation 'org.mockito:mockito-inline:2.13.0'
 
-	integrationTestRuntime group: 'org.testng', name: 'testng', version: '6.14.3'
-	integrationTestRuntime 'org.springframework.boot:spring-boot-starter-test'
-	integrationTestRuntime 'io.projectreactor:reactor-test'
-	integrationTestRuntime 'org.mockito:mockito-inline:2.13.0'
-	integrationTestRuntime group: 'com.h2database', name: 'h2', version: '1.4.199'
+	inttestRuntime group: 'org.testng', name: 'testng', version: '6.14.3'
+	inttestRuntime 'org.springframework.boot:spring-boot-starter-test'
+	inttestRuntime 'io.projectreactor:reactor-test'
+	inttestRuntime 'org.mockito:mockito-inline:2.13.0'
+	inttestRuntime group: 'com.h2database', name: 'h2', version: '1.4.199'
 
 
 
@@ -122,16 +122,16 @@ task testNG(type: Test) {
 	}
 }
 
-task integrationTest(type: Test) {
+task inttest(type: Test) {
 	useTestNG()
-	testClassesDirs = sourceSets.integrationTest.output.classesDirs
-	classpath = sourceSets.integrationTest.runtimeClasspath
+	testClassesDirs = sourceSets.inttest.output.classesDirs
+	classpath = sourceSets.inttest.runtimeClasspath
 	outputs.upToDateWhen { false }
 	mustRunAfter testNG
 }
 
 test {
 	dependsOn testNG
-	dependsOn integrationTest
+	dependsOn inttest
 }
 
