@@ -61,12 +61,10 @@ repositories {
 
 sourceSets {
 	inttest {
-		java {
-			compileClasspath += main.output + test.output
-			runtimeClasspath += main.output + test.output
-			srcDir file('src/inttest/java')
-		}
-		resources.srcDir file('src/inttest/resources')
+    java.srcDirs = [file('src/inttest/java')]
+		resources.srcDirs = [file('src/inttest/resources')]
+    compileClasspath += main.output + test.output
+    runtimeClasspath += main.output + test.output
 	}
 }
 
@@ -128,8 +126,10 @@ task testNG(type: Test) {
 	}
 }
 
-task inttest(type: Test) {
-	useTestNG()
+task intTest(type: Test) {
+	useTestNG() {
+		useDefaultListeners = true
+	}
 	testClassesDirs = sourceSets.inttest.output.classesDirs
 	classpath = sourceSets.inttest.runtimeClasspath
 	outputs.upToDateWhen { false }
@@ -138,6 +138,6 @@ task inttest(type: Test) {
 
 test {
 	dependsOn testNG
-	dependsOn inttest
+	dependsOn intTest
 }
 

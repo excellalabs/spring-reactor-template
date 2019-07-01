@@ -36,8 +36,6 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     auth.userDetailsService(userDetailsService()).passwordEncoder(passwordEncoder());
   }
 
-
-
   /**
    * Returns the default implementation of the AuthenticationManager and creates a bean from it.
    *

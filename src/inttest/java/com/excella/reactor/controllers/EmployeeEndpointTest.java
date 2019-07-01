@@ -1,5 +1,8 @@
 package com.excella.reactor.controllers;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import com.excella.reactor.domain.Employee;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.runner.RunWith;
@@ -15,9 +18,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
-
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @Test
 @RunWith(SpringRunner.class)
@@ -43,24 +43,22 @@ public class EmployeeEndpointTest extends AbstractTestNGSpringContextTests {
   }
 
   @BeforeTest
-  public void beforeTest() {
+  public void beforeTest() {}
 
-  }
   @Test
   public void contextLoads() {
+    assert false;
     assert mockMvc != null;
   }
 
   @Test(description = "Post an employee successfully.")
-  public void postSuccessfully() throws Exception{
-
-    mockMvc.perform(post("/employee")
-        .contentType(MediaType.APPLICATION_JSON_UTF8)
-        .content(mapper.writeValueAsString(employee))
-    ).andExpect(status().is4xxClientError());
-
+  public void postSuccessfully() throws Exception {
+    assert false;
+    mockMvc
+        .perform(
+            post("/employee")
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(mapper.writeValueAsString(employee)))
+        .andExpect(status().is4xxClientError());
   }
-
-
-
 }
