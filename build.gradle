@@ -61,10 +61,10 @@ repositories {
 
 sourceSets {
 	inttest {
-    java.srcDirs = [file('src/inttest/java')]
-		resources.srcDirs = [file('src/inttest/resources')]
-    compileClasspath += main.output + test.output
-    runtimeClasspath += main.output + test.output
+		java
+		resources
+		compileClasspath +=  main.output + test.output
+		runtimeClasspath += main.output + test.output
 	}
 }
 
@@ -101,16 +101,14 @@ dependencies {
 	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
 
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testImplementation 'org.springframework.security:spring-security-test:5.1.5.RELEASE'
 
 
 	testImplementation 'io.projectreactor:reactor-test'
 	testImplementation group: 'org.testng', name: 'testng', version: '6.14.3'
 	testImplementation 'org.mockito:mockito-inline:2.13.0'
 
-	inttestRuntime group: 'org.testng', name: 'testng', version: '6.14.3'
+	inttestImplementation 'org.springframework.security:spring-security-test:5.1.5.RELEASE'
 	inttestRuntime 'org.springframework.boot:spring-boot-starter-test'
-	inttestRuntime 'io.projectreactor:reactor-test'
 	inttestRuntime 'org.mockito:mockito-inline:2.13.0'
 	inttestRuntime group: 'com.h2database', name: 'h2', version: '1.4.199'
 
@@ -126,10 +124,8 @@ task testNG(type: Test) {
 	}
 }
 
-task intTest(type: Test) {
-	useTestNG() {
-		useDefaultListeners = true
-	}
+task inttest(type: Test) {
+	useTestNG()
 	testClassesDirs = sourceSets.inttest.output.classesDirs
 	classpath = sourceSets.inttest.runtimeClasspath
 	outputs.upToDateWhen { false }
@@ -138,6 +134,6 @@ task intTest(type: Test) {
 
 test {
 	dependsOn testNG
-	dependsOn intTest
+	dependsOn inttest
 }
 

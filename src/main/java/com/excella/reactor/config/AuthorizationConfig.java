@@ -81,8 +81,6 @@ public class AuthorizationConfig extends AuthorizationServerConfigurerAdapter {
    */
   @Bean
   public JwtAccessTokenConverter jwtAccessTokenConverter() {
-    System.out.println("check here");
-    System.out.println(securityProperties.toString());
     if (jwtAccessTokenConverter != null) {
       return jwtAccessTokenConverter;
     }
