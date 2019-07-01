@@ -1,4 +1,4 @@
-# spring-reactor-template
+# tcp-java repository
 
 A CRUD example using Spring WebFlux and Java 11
 
@@ -81,4 +81,23 @@ Also, please ensure Flyway migrations are running. They include the DB setup for
     4. Select to use the gradle wrapper configuration from the project
     
 
+
+##### 5. Tech Challenge Architecture
+
+The Java repository represents one of the possible backends that can be used.
+
+![Tech Challenge Architecture Diagram](architechture.png)
+
+To connect a front-end application to the API, please see either the Angular or React tech challenge repositories.
+
+  -  [Angular Repository](https://github.com/excellaco/tcp-angular)
+  - [React Repository](https://github.com/excellaco/tcp-react)
+
+To use the Command-Line Interface (CLI), please download and setup the [CLI Repository](https://github.com/excellaco/xg)
+
+##### 6.  Reactive Web Frameworks
+
+[Springboot Webflux](https://spring.io/guides/gs/reactive-rest-service/) is a reactive web framework.  For more information on reactive design and its basic principles, we suggest looking at the [Reactive Manifesto](https://www.reactivemanifesto.org/).
+
+For a more detailed guide to understanding how to handle reactive and functional types like `Mono` and `Flux`, please refer to our [Java React Tutorial](https://github.com/excellalabs/reactive-in-java)
 
