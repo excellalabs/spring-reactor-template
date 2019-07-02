@@ -38,7 +38,6 @@ public class EmployeeEndpointTest extends AbstractTestNGSpringContextTests {
 
   @BeforeClass
   public void beforeClass() {
-    // System.out.println(requestMappingHandlerMapping.getHandlerMethods().entrySet());
     this.authToken = testSecUtils.getAuth(mockMvc);
   }
 
@@ -95,7 +94,7 @@ public class EmployeeEndpointTest extends AbstractTestNGSpringContextTests {
   public void authError() throws Exception {
     mockMvc
         .perform(
-            post("/employee/")
+            post("/employee/") // Trailing slash is required
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(mapper.writeValueAsString(employee)))
         .andDo(print())
@@ -107,7 +106,7 @@ public class EmployeeEndpointTest extends AbstractTestNGSpringContextTests {
   public void postSuccess() throws Exception {
     mockMvc
         .perform(
-            post("/employee/")
+            post("/employee/") // Trailing slash is required
                 .header(HttpHeaders.AUTHORIZATION, String.format("Bearer %s", authToken))
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(mapper.writeValueAsString(employee)))
@@ -120,7 +119,7 @@ public class EmployeeEndpointTest extends AbstractTestNGSpringContextTests {
   public void getSuccess() throws Exception {
     mockMvc
         .perform(
-            get("/employee/")
+            get("/employee/") // Trailing slash is required
                 .header(HttpHeaders.AUTHORIZATION, String.format("Bearer %s", authToken)))
         .andDo(print())
         .andExpect(status().is2xxSuccessful());
