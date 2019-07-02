@@ -1,19 +1,11 @@
 package com.excella.reactor.controllers;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.excella.reactor.domain.Address;
-import com.excella.reactor.domain.Bio;
-import com.excella.reactor.domain.Contact;
-import com.excella.reactor.domain.Employee;
-import com.excella.reactor.domain.EmployeeSkill;
-import com.excella.reactor.domain.Ethnicity;
-import com.excella.reactor.domain.Gender;
-import com.excella.reactor.domain.Skill;
-import com.excella.reactor.domain.SkillCategory;
-import com.excella.reactor.domain.SkillProficiency;
+import com.excella.reactor.domain.*;
 import com.excella.reactor.util.TestSecUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.net.HttpHeaders;
@@ -21,12 +13,9 @@ import java.time.LocalDate;
 import java.util.Collections;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
@@ -47,10 +36,9 @@ public class EmployeeEndpointTest extends AbstractTestNGSpringContextTests {
   private Employee employee;
   private String authToken;
 
-
-
   @BeforeClass
   public void beforeClass() {
+    // System.out.println(requestMappingHandlerMapping.getHandlerMethods().entrySet());
     this.authToken = testSecUtils.getAuth(mockMvc);
   }
 
@@ -107,7 +95,7 @@ public class EmployeeEndpointTest extends AbstractTestNGSpringContextTests {
   public void authError() throws Exception {
     mockMvc
         .perform(
-            post("/employee")
+            post("/employee/")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(mapper.writeValueAsString(employee)))
         .andDo(print())
@@ -116,13 +104,24 @@ public class EmployeeEndpointTest extends AbstractTestNGSpringContextTests {
 
   @Test
   @WithMockUser
-  public void success() throws Exception {
+  public void postSuccess() throws Exception {
     mockMvc
         .perform(
-            post("/employee")
+            post("/employee/")
                 .header(HttpHeaders.AUTHORIZATION, String.format("Bearer %s", authToken))
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(mapper.writeValueAsString(employee)))
+        .andDo(print())
+        .andExpect(status().is2xxSuccessful());
+  }
+
+  @Test
+  @WithMockUser
+  public void getSuccess() throws Exception {
+    mockMvc
+        .perform(
+            get("/employee/")
+                .header(HttpHeaders.AUTHORIZATION, String.format("Bearer %s", authToken)))
         .andDo(print())
         .andExpect(status().is2xxSuccessful());
   }

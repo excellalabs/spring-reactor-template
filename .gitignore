@@ -3,6 +3,8 @@
 out
 build
 *.iml
+*.jks
 .DS_Store
+.env
 .envrc
 .java-version
