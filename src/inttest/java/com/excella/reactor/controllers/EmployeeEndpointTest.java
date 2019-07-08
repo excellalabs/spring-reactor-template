@@ -102,7 +102,6 @@ public class EmployeeEndpointTest extends AbstractTestNGSpringContextTests {
   }
 
   @Test(description = "Should post a valid employee.")
-  @WithMockUser
   public void postSuccess() throws Exception {
     mockMvc
         .perform(
@@ -114,7 +113,6 @@ public class EmployeeEndpointTest extends AbstractTestNGSpringContextTests {
   }
 
   @Test(description = "Should successfully get employee")
-  @WithMockUser
   public void getSuccess() throws Exception {
     mockMvc
         .perform(
