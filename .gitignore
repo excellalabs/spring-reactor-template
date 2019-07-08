@@ -8,3 +8,5 @@ build
 .env
 .envrc
 .java-version
+*.jks
+.env
