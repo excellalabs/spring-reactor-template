@@ -33,6 +33,7 @@ public class EmployeeEndpointTest extends AbstractTestNGSpringContextTests {
   @Autowired private TestSecUtils testSecUtils;
   @Autowired private EmployeeController employeeController;
 
+  private final String ENDPOINT = "/employee/"; // trailing slash required
   private Employee employee;
   private String authToken;
 
@@ -69,7 +70,7 @@ public class EmployeeEndpointTest extends AbstractTestNGSpringContextTests {
 
     contact.setAddress(address);
     contact.setEmail("john.doe@test.com");
-    contact.setPhoneNumber("5715555555");
+    contact.setPhoneNumber("(571)555-5555");
 
     address.setLine1("1 Fake St");
     address.setCity("Portsmouth");
@@ -94,34 +95,31 @@ public class EmployeeEndpointTest extends AbstractTestNGSpringContextTests {
   public void authError() throws Exception {
     mockMvc
         .perform(
-            post("/employee/") // Trailing slash is required
+            post(ENDPOINT)
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(mapper.writeValueAsString(employee)))
-        .andDo(print())
         .andExpect(status().isUnauthorized());
   }
 
-  @Test
+  @Test(description = "Should post a valid employee.")
   @WithMockUser
   public void postSuccess() throws Exception {
     mockMvc
         .perform(
-            post("/employee/") // Trailing slash is required
+            post(ENDPOINT)
                 .header(HttpHeaders.AUTHORIZATION, String.format("Bearer %s", authToken))
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(mapper.writeValueAsString(employee)))
-        .andDo(print())
         .andExpect(status().is2xxSuccessful());
   }
 
-  @Test
+  @Test(description = "Should successfully get employee")
   @WithMockUser
   public void getSuccess() throws Exception {
     mockMvc
         .perform(
-            get("/employee/") // Trailing slash is required
+            get(ENDPOINT)
                 .header(HttpHeaders.AUTHORIZATION, String.format("Bearer %s", authToken)))
-        .andDo(print())
         .andExpect(status().is2xxSuccessful());
   }
 }
