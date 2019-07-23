@@ -1,0 +1,12 @@
+#!/bin/bash
+# Create a token file (in the current directory) for use with curl -K
+set -e
+# Anemic attempt to protect secret:
+echo '-u app:$2a$04$hqawBldLsWkFJ5CVsvtL7ed1z9yeoknfusz.,EHWzxfLBoViK6OVi' | tr '.,' 'PO' > secret
+echo -n '-H "Authorization: Bearer ' > token
+curl -K- -d username=user -d password=pass -d grant_type=client_credentials 'localhost:8080/api/oauth/token' < secret > tokenresponse
+sed 's/.*"access_token":"\([^"]*\).*/\1/g' tokenresponse >> token
+echo '"' >> token
+
+echo "token file created; you can use it like this:"
+echo "  curl localhost:8080/api/employee/7 -K token"
