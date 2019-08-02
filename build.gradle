@@ -47,9 +47,9 @@ jacocoTestCoverageVerification {
 	violationRules {
 		rule {
 			element = 'CLASS'
-			excludes = ["com/excella/reactor/config/**", "com.excella.reactor.ReactorApplication.class", "com/excella/reactor/common/reactor/MonoUtils.class"]
+			excludes = ["com.excella.reactor.config.*", "com.excella.reactor.ReactorApplication", "com.excella.reactor.common.reactor.MonoUtils"]
 			limit {
-				minimum = 0.0
+				minimum = 1.0
 			}
 		}
 	}
