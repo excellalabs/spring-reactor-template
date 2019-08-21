@@ -193,7 +193,7 @@ For a more detailed guide to understanding how to handle reactive and functional
 
 ##### 9. Deployment to the ECS Cluster
 
-To deploy to the ECS cluster, you need to [@@ more here @@],
+To deploy to the ECS cluster, you need to
 build the production Docker image, push it to the ECR,
 use ecs-cli to create and bring up the service, and open ports in the load balancer.
 
