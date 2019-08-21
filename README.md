@@ -191,7 +191,7 @@ To connect a front-end application to the API, please see either the Angular or 
 
 For a more detailed guide to understanding how to handle reactive and functional types like `Mono` and `Flux`, please refer to our [Java React Tutorial](https://github.com/excellalabs/reactive-in-java)
 
-##### 7. Deployment to the ECS Cluster
+##### 9. Deployment to the ECS Cluster
 
 To deploy to the ECS cluster, you need to [@@ more here @@],
 build the production Docker image, push it to the ECR,
@@ -202,13 +202,6 @@ use ecs-cli to create and bring up the service, and open ports in the load balan
     Follow the instructions from the tcp-ecs repo's README, in the
     section titled "Installing and Configuring the aws and ecs-cli Command-Line Tools".
     https://github.com/excellaco/tcp-ecs/
-
-1. [@@ steps before docker image build @@]
-
-    ?? Find out what the external FQDN of the Application Load Balancer (ALB)
-    is: this should be output when the tcp-ecs Terraform job runs.
-    
-    Note: you *must* perform this step before doing the Docker image build.
 
 1. Build the production Docker image:
 
@@ -285,6 +278,8 @@ use ecs-cli to create and bring up the service, and open ports in the load balan
 
 1. Check that the API service is running and accessible
 
+    You can get the ALB's FQDN by running: `terraform output cluster_url`
+
     From a machine that can connect to the ALB (e.g. a machine on Excella's network):
 
     From the project root directory, 
@@ -307,3 +302,46 @@ use ecs-cli to create and bring up the service, and open ports in the load balan
     `./get-token localhost:8080`
     `curl -K token localhost:8080/api/employee/2`
     If this succeeds, the problem is probably with the networking (ALB, Target Groups, Security Groups).
+
+##### 10. Connecting via the Bastion Host
+
+To connect to machines on the private subnet, you'll need to go through the Bastion Host.
+
+Start by collecting the following information from the output of terraform:
+`$ terraform output`
+
+The public IP or FQDN of the Bastion (bastion_public_ip)
+The private SSH key (private_key_pem), found in file specified by ssh_key_directory
+
+Copy the private key to your ~/.ssh directory; set a variable to thte filename there:
+`bastion_key=~/.ssh/something_ssh_key_pair.pem`
+
+Set a variable to the bastion's public IP:
+`bastion=12.34.56.78`
+
+Set a variable for the private IP of the node you want to connect to:
+`cluster_node1=192.168.20.216 # or whatever it is`
+
+Set up an ssh tunnel:
+`ssh -f -i $bastion_key -L 2222:$cluster_node1:22 ubuntu@$bastion 'sleep 3600'`
+
+This means whenever you connect to port 2222 on your local host, ssh will
+forward the connection, through the bastion, to port 22 on the private node.
+
+Connect to the private node using the tunnel:
+`ssh -p 2222 -i $bastion_key ec2-user@localhost`
+
+You're connecting to port 2222 on your local host, but effectively talking
+to port 22 on the private node.  Assuming the usual login for that node is
+"ec2-user", you're trying to log in as that user, using the private key to
+authenticate.
+
+You should now have an ssh connection to the private node.
+
+If you need to set up tunnels to additional private nodes, use different ports
+on your local host; e.g.:
+
+`ssh -f -i $bastion_key -L 3333:$cluster_node_2:22 ubuntu@$bastion 'sleep 3600'`
+`ssh -p 3333 -i $bastion_key ec2-user@localhost`
+
+Here we've set up a tunnel to $cluster_node_2, but it's at local port 2223.
