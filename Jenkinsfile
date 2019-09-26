@@ -16,6 +16,14 @@ pipeline {
         jdk "11"
     }
     stages {
+        stage('SlackNotify'){
+          when {
+            expression { JOB_BASE_NAME ==~ /(PR-)/ }
+          }
+          steps {
+            slackSend(channel: '#tcp-java', color: '#FFFF00', message: ":jenkins-triggered: Build Triggered - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)")
+          }
+        }
         stage('Linter') {
             steps {
               //slackSend(channel: '#tcp-java', color: '#FFFF00', message: ":jenkins-triggered: Build Triggered - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)")
