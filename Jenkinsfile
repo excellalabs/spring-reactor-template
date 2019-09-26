@@ -20,7 +20,7 @@ pipeline {
             steps {
               //slackSend(channel: '#tcp-java', color: '#FFFF00', message: ":jenkins-triggered: Build Triggered - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)")
               gradlew('verGJF')
-              echo ${JOB_BASE_NAME}
+              echo "${JOB_BASE_NAME}"
             }
         }
         stage('Clean') {
@@ -55,7 +55,7 @@ pipeline {
             }
           }
         }
-        stage('Build Dev Image'){
+        /*stage('Build Dev Image'){
           steps{
               sh './tcp-java-ecs/package-for-ecs dev'
           }
@@ -66,7 +66,7 @@ pipeline {
               sh "./deploy-to-ecs ${PROJECT_NAME} dev"
             }
           }
-        }
+        }*/
         /* stage('Build Test Image'){
           steps{
               sh './tcp-java-ecs/package-for-ecs test'
