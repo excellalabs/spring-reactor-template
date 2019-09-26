@@ -104,16 +104,16 @@ pipeline {
         success {
            setBuildStatus("Build succeeded", "SUCCESS");
            script {
-             if ($env.JOB_BASE_NAME ==~ /(PR-)/ )
-              //slackSend(channel: '#tcp-java', color: '#00FF00', message: ":jenkins_ci: Build Successful!  ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>) :jenkins_ci:")
-            }           
+             if (env.JOB_BASE_NAME.startsWith('PR'))
+              slackSend(channel: '#tcp-java', color: '#00FF00', message: ":jenkins_ci: Build Successful!  ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>) :jenkins_ci:")
+            }
            cleanWs()
         }
         failure {
            setBuildStatus("Build failed", "FAILURE");
            script {
-             if ($env.JOB_BASE_NAME ==~ /(PR-)/ )
-              //slackSend(channel: '#tcp-java', color: '#FF0000', message: ":alert: :jenkins_exploding: *Build Failed!  Please remedy this malbuildage at your earliest convenience* ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>) :jenkins_exploding: :alert:")
+             if (env.JOB_BASE_NAME.startsWith('PR'))
+              slackSend(channel: '#tcp-java', color: '#FF0000', message: ":alert: :jenkins_exploding: *Build Failed!  Please remedy this malbuildage at your earliest convenience* ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>) :jenkins_exploding: :alert:")
             }
         }
     }
