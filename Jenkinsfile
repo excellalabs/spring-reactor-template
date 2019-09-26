@@ -95,6 +95,7 @@ pipeline {
         success {
            setBuildStatus("Build succeeded", "SUCCESS");
            slackSend(channel: '#tcp-java', color: '#00FF00', message: ":jenkins_ci: Build Successful!  ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>) :jenkins_ci:")
+           cleanWs()
         }
         failure {
            setBuildStatus("Build failed", "FAILURE");
